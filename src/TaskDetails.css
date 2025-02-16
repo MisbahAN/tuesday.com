@@ -1,21 +1,32 @@
 /* src/TaskDetails.css */
+
 .task-details {
-    padding: 20px;
-    background-color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    color: #fff;
+    padding: 20px;
+    margin-top: 20px; /* Add some space above */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .task-details h2 {
+    font-family: 'Poppins', sans-serif;
     margin-top: 0;
-    color: #fff;
-    border-bottom: 1px solid #555;
+    color: #2c3e50;
+    border-bottom: 1px solid #ddd;
     padding-bottom: 8px;
     margin-bottom: 15px;
 }
 
+.task-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 10px 20px; /* Row and column gap */
+    margin-bottom: 20px;
+}
+
 .task-details p {
-    margin-bottom: 10px;
+    margin: 0; /* Remove default margin */
     line-height: 1.6;
 }
 
@@ -26,24 +37,31 @@
 }
 
 .task-details li {
-    background-color: transparent;
-    padding: 5px 0;
-    margin-bottom: 0;
-    display: list-item;
+    margin-bottom: 5px;
 }
 
+
 .task-details button {
-    background-color: #007bff;
+    background-color: #3498db;
     color: white;
     border: none;
     padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1em;
-    margin-top: 20px;
+    font-size: 1rem;
     margin-right: 10px;
+    transition: background-color 0.2s ease;
 }
 
 .task-details button:hover {
-    background-color: #0056b3;
+    background-color: #2980b9;
+}
+
+/* Style for subtasks within TaskDetails (if you want them different) */
+.task-details ul li ul li{
+	list-style: none; /* Remove default list bullets */
+
+}
+.task-details ul li ul{
+	margin-left: 0px;
 }

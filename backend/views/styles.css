@@ -1,0 +1,40 @@
+body {
+    background-color: #0b3968;
+}
+
+.container {
+    max-width: 400px;
+    margin-top: 100px;
+    background-color: #cdcdcd;
+}
+
+.mainbox {
+    color: black;
+    margin: 0 auto;
+    background-color: aliceblue;
+}
+h1{
+    text-align: center;
+}
+
+button {
+    background-color: #007BFF; /* Bootstrap primary color */
+    color: white; /* Text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Vertical and horizontal padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No underline */
+    display: inline-block; /* Aligns with other elements */
+    font-size: 16px; /* Font size */
+    margin: 10px 2px; /* Margin around buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+}
+
+.buttons {
+    display: flex; /* Enable Flexbox for buttons */
+    flex-direction: row; /* Arrange buttons in a row */
+    justify-content: center; /* Center buttons horizontally */
+    gap: 10px; /* Optional: Add space between buttons */
+}

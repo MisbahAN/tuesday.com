@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks for <%= list_name %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .create-task-form, .add-user-form {
+            margin-top: 20px;
+        }
+        .create-task-form input, .create-task-form textarea, .create-task-form button,
+        .add-user-form input, .add-user-form button {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tasks for <%= list_name %></h1>
+
+        <!-- Assigned Tasks Table -->
+        <h2>Assigned Tasks</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (tasks && tasks.length) { %>
+                    <% tasks.forEach(task => { %>
+                        <tr>
+                            <td><%= task.task_name %></td>
+                            <td><%= task.description %></td>
+                            <td><%= task.due_date ? task.due_date.toLocaleDateString() : 'No due date' %></td>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    <%= task.completed ? 'checked' : '' %>
+                                    disabled
+                                >
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4">No tasks found</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+        <!-- Create Task Form -->
+        <div class="create-task-form">
+            <h2>Create a New Task</h2>
+            <form action="/createtask" method="POST">
+                <input type="text" name="task_name" placeholder="Task Name" required>
+                <textarea name="description" placeholder="Task Description (Optional)"></textarea>
+                <input type="hidden" name="username" value="<%= username %>">
+                <input type="date" name="due_date" placeholder="Due Date (Optional)">
+                <input type="hidden" name="list_id" value="<%= list_id %>">
+                <button type="submit">Create Task</button>
+            </form>
+        </div>
+
+        <!-- Add User to List Form -->
+        <div class="add-user-form">
+            <h2>Add User to List</h2>
+            <form action="/addusertolist" method="POST">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="hidden" name="list_id" value="<%= list_id %>">
+                <button type="submit">Add User</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

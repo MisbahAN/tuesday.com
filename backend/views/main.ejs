@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Lists</h1>
+
+        <!-- Dropdown to select a list -->
+        <form action="/gotolist" method="GET">
+            <label for="list-select">Choose a list:</label>
+            <select id="list-select" name="list_id" required>
+                <% lists.forEach(list => { %>
+                    <option value="<%= list.list_id %>"><%= list.list_name %></option>
+                <% }); %>
+            </select>
+            <input type="hidden" name="username" value="<%= username %>">
+            <button type="submit">Go to List</button>
+
+        </form>
+
+        <!-- Create List Form -->
+        <h1>Create a New List</h1>
+        <form action="/addList" method="POST">
+            <label for="list_name">List Name:</label>
+            <input type="text" id="list_name" name="list_name" required>
+            <input type="hidden" name="username" value="<%= username %>">
+            <button type="submit">Create List</button>
+        </form>
+    </div>
+</body>
+</html>

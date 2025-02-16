@@ -11,7 +11,7 @@ const Tasks = require('./models/Tasks');
 const Assignments = require('./models/Assignments');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Admin:1234@cluster0.ea58rvf.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://Admin:<password>@cluster0.ea58rvf.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
 // Middleware
 app.use(express.static('views'));
 app.set('view engine', 'ejs');

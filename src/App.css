@@ -2,8 +2,8 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -13,9 +13,9 @@ body {
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
-  background-color: white;
+  background-color: #2d2d2d;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
 }
@@ -24,8 +24,8 @@ h1 {
   font-family: 'Poppins', sans-serif;
   text-align: center;
   margin-bottom: 20px;
-  color: #2c3e50;
-  border-bottom: 2px solid #3498db;
+  color: #ffffff;
+  border-bottom: 2px solid #4d90fe;
   padding-bottom: 10px;
 }
 
@@ -33,19 +33,21 @@ h1 {
   display: flex;
   gap: 20px;
   flex-grow: 1;
+  justify-content: center;
 }
 
 .task-list-container {
   flex: 1;
   display: flex;
   flex-direction: column;
+  max-width: 800px;
 }
 
 .task-list-container h2 {
   font-family: 'Poppins', sans-serif;
   margin-top: 0;
-  color: #2c3e50;
-  border-bottom: 1px solid #ddd;
+  color: #ffffff;
+  border-bottom: 1px solid #444;
   padding-bottom: 8px;
   margin-bottom: 10px;
 }
@@ -58,26 +60,27 @@ h1 {
 
 /* Scrollbar Styling */
 .task-list::-webkit-scrollbar { width: 8px; }
-.task-list::-webkit-scrollbar-track { background: #f0f0f0; }
-.task-list::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
-.task-list::-webkit-scrollbar-thumb:hover { background: #999; }
+.task-list::-webkit-scrollbar-track { background: #2d2d2d; }
+.task-list::-webkit-scrollbar-thumb { background: #4d4d4d; border-radius: 4px; }
+.task-list::-webkit-scrollbar-thumb:hover { background: #666; }
 
 
 .task-item {
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: #3a3a3a;
+  border: 1px solid #444;
   border-radius: 4px;
   padding: 12px;
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .task-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  border-color: #4d90fe;
 }
 .task-item.available-task:hover{
   border-left: 4px solid #007bff;
@@ -97,80 +100,13 @@ h1 {
 .task-title {
   flex-grow: 1;
   font-size: 1rem;
-  color: #2c3e50;
+  color: #ffffff;
   margin-right: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
 }
 
-.task-title.completed {
-  text-decoration: line-through;
-}
-
-.task-details-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.due-date {
-  font-size: 0.85rem;
-  color: #777;
-}
-
-/* REMOVED status-badge and priority-badge styles */
-
-.take-button {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
-}
-
-.take-button:hover {
-  background-color: #2980b9;
-}
-
-.filter-input {
-  width: calc(100% - 20px);
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  color: #333;
-}
-
-/* Subtasks */
-.subtasks {
-  margin-top: 10px;
-  padding-left: 20px;
-}
-
-.subtask {
-  background-color: #f9f9f9;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  padding: 8px;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.subtask-title {
-  font-size: 0.9rem;
-  color: #444;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .subtask-due-date{
 font-size: 0.7rem;
   color: #444;

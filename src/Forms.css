@@ -1,0 +1,98 @@
+.form-container {
+    background-color: #3a3a3a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #e0e0e0;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #2d2d2d;
+    border: 1px solid #444;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.available-button {
+    background-color: #4d90fe;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.available-button:hover {
+    background-color: #3a7bd5;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.my-button {
+    background-color: #4d90fe;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.my-button:hover {
+    background-color: #3a7bd5;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4d90fe;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submit-button:hover {
+    background-color: #3a7bd5;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}

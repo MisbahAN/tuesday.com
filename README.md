@@ -1,70 +1,115 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🗓️ Tuesday.com
 
-## Available Scripts
+*A playful twist on project management, built "on a Tuesday"*
 
-In the project directory, you can run:
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![HackED 2025](https://img.shields.io/badge/HackED-2025-orange.svg)](https://github.com/MisbahAN/tuesday.com)
+[![Built with React](https://img.shields.io/badge/Built%20with-React-61DAFB.svg)](https://reactjs.org)
 
-### `npm start`
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Tuesday.com** is a humorous, experimental take on popular work management tools like Monday.com. Created during **HackED 2025**, it serves as a fun and slightly chaotic alternative to traditional project management software. 
 
-### `npm test`
+## 🚀 Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 📊 Interactive task boards
+- 🤖 AI-powered task generation
+- 🎮 Gamified project management
+- 🤝 Team collaboration tools
+- 📱 Responsive design
 
-### `npm run build`
+## 📁 Repository Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+tuesday.com/
+├── AI-Integration/     # AI feature integration
+├── backend/           # Server-side logic
+├── public/           # Static assets
+├── src/              # React frontend
+└── README.md         # Documentation
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🛠️ Installation & Setup
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
+- Python 3.8+ (for AI features)
 
-### `npm run eject`
+### Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/MisbahAN/tuesday.com.git
+   cd tuesday.exe
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. **Start development server**
+   ```bash
+   npm start
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. **Run tests**
+   ```bash
+   npm test
+   ```
 
-## Learn More
+5. **Create production build**
+   ```bash
+   npm run build
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🔮 Future Enhancements
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Near-term Goals
+- [ ] AI-Powered Insights
+- [ ] Real-Time Collaboration
+- [ ] Gamification Features
 
-### Code Splitting
+### Long-term Vision
+- [ ] Third-Party Integrations
+- [ ] Mobile Apps
+- [ ] Voice Commands
+- [ ] Advanced Analytics
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🤝 Contributing
 
-### Analyzing the Bundle Size
+We welcome contributions! Here's how you can help:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Fork the repository
+2. Create your feature branch
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. Commit your changes
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. Push to the branch
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. Open a Pull Request
 
-### Making a Progressive Web App
+## 📜 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+<div align="center">
 
-### Deployment
+### Built with ❤️ during HackED 2025
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+[Report Bug](https://github.com/MisbahAN/tuesday.com/issues) · [Request Feature](https://github.com/MisbahAN/tuesday.com/issues)
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+</div>

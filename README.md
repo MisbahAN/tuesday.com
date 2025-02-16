@@ -2,22 +2,32 @@
 
 # 🗓️ Tuesday.com
 
-*A playful twist on project management, built "on a Tuesday"*
+*An innovative project management platform built during HackED 2025*
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![HackED 2025](https://img.shields.io/badge/HackED-2025-orange.svg)](https://github.com/MisbahAN/tuesday.com)
 [![Built with React](https://img.shields.io/badge/Built%20with-React-61DAFB.svg)](https://reactjs.org)
-
+[![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-412991.svg)](https://openai.com)
 </div>
 
 ---
+## Overview
 
-**Tuesday.com** is a humorous, experimental take on popular work management tools like Monday.com. Created during **HackED 2025**, it serves as a fun and slightly chaotic alternative to traditional project management software. 
+**Tuesday.com** is a comprehensive project management platform that combines advanced task management capabilities with AI-driven automation. Built during **HackED 2025**, it offers a modern approach to team collaboration and project organization.
 
-## 🚀 Features
 
-- 📊 Interactive task boards
-- 🤖 AI-powered task generation
+## 🚀 Core Features
+
+### 🤖 AI-Driven Task Automation
+- Intelligent task generation and management
+- Smart task prioritization
+- Predictive task scheduling
+
+### 📊 Task Management System
+- Intuitive Kanban board interface
+- Customizable task workflows
+- 
+
 - 🎮 Gamified project management
 - 🤝 Team collaboration tools
 - 📱 Responsive design

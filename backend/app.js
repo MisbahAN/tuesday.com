@@ -11,7 +11,7 @@ const Tasks = require('./models/Tasks');
 const Assignments = require('./models/Assignments');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Admin:<password>@cluster0.ea58rvf.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://Admin:1234@cluster0.ea58rvf.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
 // Middleware
 app.use(express.static('views'));
 app.set('view engine', 'ejs');
@@ -131,7 +131,6 @@ app.post('/assigntask', async (req, res) => {
         res.status(500).json({ error: 'Failed to assign task' });
     }
 });
-
 app.get('/gotolist', async (req, res) => {
     const { list_id, username } = req.query; // Get list_id and username from the query
 
@@ -273,3 +272,4 @@ async function createTasks(listIds) {
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
+

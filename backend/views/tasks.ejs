@@ -57,16 +57,16 @@
                 </tr>
             </thead>
             <tbody>
-                <% if (tasks && tasks.length) { %>
-                    <% tasks.forEach(task => { %>
+                <% if (assignedTasks && assignedTasks.length) { %>
+                    <% assignedTasks.forEach(assignedTasks => { %>
                         <tr>
-                            <td><%= task.task_name %></td>
-                            <td><%= task.description %></td>
-                            <td><%= task.due_date ? task.due_date.toLocaleDateString() : 'No due date' %></td>
+                            <td><%= assignedTasks.task_name %></td>
+                            <td><%= assignedTasks.description %></td>
+                            <td><%= assignedTasks.due_date ? assignedTasks.due_date.toLocaleDateString() : 'No due date' %></td>
                             <td>
                                 <input
                                     type="checkbox"
-                                    <%= task.completed ? 'checked' : '' %>
+                                    <%= assignedTasks.completed ? 'checked' : '' %>
                                     disabled
                                 >
                             </td>
@@ -79,6 +79,41 @@
                 <% } %>
             </tbody>
         </table>
+
+        <h2>Available Tasks</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (nonAssignedTasks && nonAssignedTasks.length) { %>
+                    <% nonAssignedTasks.forEach(nonAssignedTasks => { %>
+                        <tr>
+                            <td><%= nonAssignedTasks.task_name %></td>
+                            <td><%= nonAssignedTasks.description %></td>
+                            <td><%= nonAssignedTasks.due_date ? nonAssignedTasks.due_date.toLocaleDateString() : 'No due date' %></td>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    <%= nonAssignedTasks.completed ? 'checked' : '' %>
+                                    disabled
+                                >
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4">No tasks found</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
 
         <!-- Create Task Form -->
         <div class="create-task-form">
@@ -105,3 +140,4 @@
     </div>
 </body>
 </html>
+

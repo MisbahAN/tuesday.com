@@ -9,9 +9,10 @@ const Lists = require('./models/Lists');
 const Recommendations = require('./models/Recommendations');
 const Tasks = require('./models/Tasks');
 const Assignments = require('./models/Assignments');
+const ListAssignments = require('./models/ListAssignments');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Admin:<password>@cluster0.ea58rvf.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://Admin:abcd1234@cluster0.ea58rvf.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
 // Middleware
 app.use(express.static('views'));
 app.set('view engine', 'ejs');
@@ -89,13 +90,16 @@ app.post('/addusertolist', async (req, res) => {
         // Step 2: Create a new list entry for the user
         const newListEntry = new Lists({
             list_id: list.list_id, // Use the same list_id
-            username, // Add the new username
             list_name: list.list_name // Use the same list_name
         });
 
+        const newListAssignment = new ListAssignments({
+            username,
+            list_id
+        });
         // Step 3: Save the new list entry to the database
         await newListEntry.save();
-
+        await newListAssignment.save();
         // Step 4: Redirect to the tasks page
         res.redirect(`/gotolist?list_id=${list_id}`);
     } catch (err) {
@@ -132,33 +136,90 @@ app.post('/assigntask', async (req, res) => {
     }
 });
 app.get('/gotolist', async (req, res) => {
-    const { list_id, username } = req.query; // Get list_id and username from the query
+    if (!req.isAuthenticated()) {
+        return res.redirect('/login');
+    }
+    const { list_id } = req.query; // Get list_id from the query
+    const username = req.user.username; // Get username from the authenticated session
 
     try {
-        // Step 1: Fetch assigned tasks for the user in the current list
-        const assignments = await Assignments.find({ username, list_id });
-        const assignedTaskIds = assignments.map(assignment => assignment.task_id);
-
-        // Step 2: Fetch all tasks for the current list
+        // Step 1: Fetch all tasks for the current list
         const allTasks = await Tasks.find({ list_id });
 
-        // Step 3: Separate assigned and non-assigned tasks
-        const assignedTasks = allTasks.filter(task => assignedTaskIds.includes(task.task_id));
-        const nonAssignedTasks = allTasks.filter(task => !assignedTaskIds.includes(task.task_id));
+        // Step 2: Fetch assignments for the current user in the current list
+        const userAssignments = await Assignments.find({ username, list_id });
+        const assignedTaskIds = userAssignments.map(assignment => assignment.task_id);
 
-        // Step 4: Render the tasks page with both assigned and non-assigned tasks
+        // Step 3: Separate assigned and non-assigned tasks
+        const assignedTasks = allTasks
+            .filter(task => assignedTaskIds.includes(task.task_id))
+            .sort((a, b) => {
+                // Sort by completion status first, then by task_id
+                if (a.completed === b.completed) {
+                    return a.task_id - b.task_id;
+                }
+                return a.completed ? 1 : -1;
+            });
+
+        const nonAssignedTasks = allTasks
+            .filter(task => !assignedTaskIds.includes(task.task_id))
+            .sort((a, b) => {
+                // Sort by completion status first, then by task_id
+                if (a.completed === b.completed) {
+                    return a.task_id - b.task_id;
+                }
+                return a.completed ? 1 : -1;
+            });
+
+        // Step 4: Fetch the actual list name
+        const list = await Lists.findOne({ list_id });
+
+        // Step 5: Render the tasks page with the fetched data
         res.render('tasks', {
-            list_name: "Your List Name", // Replace with the actual list name if needed
+            list_name: list ? list.list_name : "Your List",
             list_id: list_id,
             username: username,
             assignedTasks: assignedTasks,
-            nonAssignedTasks: nonAssignedTasks
+            nonAssignedTasks: nonAssignedTasks,
+            showCompleted: true
         });
     } catch (err) {
         console.error('Error fetching tasks:', err);
         res.status(500).json({ error: 'Failed to fetch tasks' });
     }
 });
+
+app.post('/marktaskcompleted', async (req, res) => {
+    const { task_id } = req.body; // Get task_id from the request
+    const username = req.user.username; // Get username from the authenticated session
+
+    try {
+        // Step 1: Find the task by task_id
+        const task = await Tasks.findOne({ task_id });
+        if (!task) {
+            return res.status(404).json({ success: false, error: 'Task not found' });
+        }
+
+        // Step 2: Check if the task is assigned to the user
+        const assignment = await Assignments.findOne({ task_id, username });
+        if (!assignment) {
+            return res.status(403).json({ error: 'Task is not assigned to you' });
+        }
+
+        // Step 3: Update the completed field to true
+        task.completed = true;
+
+        // Step 4: Save the updated task to the database
+        await task.save();
+
+        // Step 5: Redirect back to the tasks page
+        res.redirect(`/gotolist?list_id=${task.list_id}`); // No need to pass username here
+    } catch (err) {
+        console.error('Error marking task as completed:', err);
+        res.status(500).json({ success: false, error: 'Failed to mark task as completed' });
+    }
+});
+
 app.post('/addList', async (req, res) => {
     const { username, list_name } = req.body;
     try {
@@ -189,7 +250,7 @@ async function addList(username, list_name) {
 
 
 app.post('/createtask', async (req, res) => {
-    const { task_name, description, due_date, list_id } = req.body;
+    const { task_name, description, due_date, list_id, assign_to_me } = req.body;
     const username = req.user.username;
 
     try {
@@ -204,14 +265,17 @@ app.post('/createtask', async (req, res) => {
         });
         await newTask.save();
 
-        const newAssignment = new Assignments({
-            task_id,
-            username,
-            list_id: parseInt(list_id)
-        });
-        await newAssignment.save();
+        // Only create assignment if assign_to_me is true
+        if (assign_to_me === 'true') {
+            const newAssignment = new Assignments({
+                task_id,
+                username,
+                list_id: parseInt(list_id)
+            });
+            await newAssignment.save();
+        }
 
-        res.redirect(`/gotolist?list_id=${list_id}&username=${username}`);
+        res.redirect(`/gotolist?list_id=${list_id}`);
     } catch (err) {
         console.error('Error creating task:', err);
         res.status(500).json({ error: 'Failed to create task' });
@@ -272,4 +336,3 @@ async function createTasks(listIds) {
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
-

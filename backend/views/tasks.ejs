@@ -39,6 +39,26 @@
             width: 100%;
             padding: 10px;
         }
+        .mark-completed-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .mark-completed-btn:hover {
+            background-color: #45a049;
+        }
+        .take-task-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .take-task-btn:hover {
+            background-color: #1e88e5;
+        }
     </style>
 </head>
 <body>
@@ -53,26 +73,29 @@
                     <th>Task Name</th>
                     <th>Description</th>
                     <th>Due Date</th>
-                    <th>Completed</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <% if (assignedTasks && assignedTasks.length) { %>
-                    <% assignedTasks.forEach(assignedTasks => { %>
-                        <tr>
-                            <td><%= assignedTasks.task_name %></td>
-                            <td><%= assignedTasks.description %></td>
-                            <td><%= assignedTasks.due_date ? assignedTasks.due_date.toLocaleDateString() : 'No due date' %></td>
-                            <td>
-                                <input
-                                    type="checkbox"
-                                    <%= assignedTasks.completed ? 'checked' : '' %>
-                                    disabled
-                                >
-                            </td>
-                        </tr>
-                    <% }); %>
-                <% } else { %>
+                <% assignedTasks.forEach(task => { %>
+                    <tr>
+                        <td><%= task.task_name %></td>
+                        <td><%= task.description %></td>
+                        <td><%= task.due_date ? task.due_date.toLocaleDateString() : 'No due date' %></td>
+                        <td>
+                            <% if (!task.completed) { %>
+                                <form action="/marktaskcompleted" method="POST" style="display: inline;">
+                                    <input type="hidden" name="task_id" value="<%= task.task_id %>">
+                                    <button type="submit" class="mark-completed-btn">Mark as Completed</button>
+                                </form>
+                            <% } else { %>
+                                <span style="color: #4CAF50; font-weight: bold;">✓ Completed</span>
+                            <% } %>
+
+                        </td>
+                    </tr>
+                <% }); %>
+                <% if (assignedTasks.length === 0) { %>
                     <tr>
                         <td colspan="4">No tasks found</td>
                     </tr>
@@ -80,6 +103,7 @@
             </tbody>
         </table>
 
+        <!-- Available Tasks Table -->
         <h2>Available Tasks</h2>
         <table>
             <thead>
@@ -87,33 +111,32 @@
                     <th>Task Name</th>
                     <th>Description</th>
                     <th>Due Date</th>
-                    <th>Completed</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <% if (nonAssignedTasks && nonAssignedTasks.length) { %>
-                    <% nonAssignedTasks.forEach(nonAssignedTasks => { %>
-                        <tr>
-                            <td><%= nonAssignedTasks.task_name %></td>
-                            <td><%= nonAssignedTasks.description %></td>
-                            <td><%= nonAssignedTasks.due_date ? nonAssignedTasks.due_date.toLocaleDateString() : 'No due date' %></td>
-                            <td>
-                                <input
-                                    type="checkbox"
-                                    <%= nonAssignedTasks.completed ? 'checked' : '' %>
-                                    disabled
-                                >
-                            </td>
-                        </tr>
-                    <% }); %>
-                <% } else { %>
+                <% nonAssignedTasks.forEach(task => { %>
+                    <tr>
+                        <td><%= task.task_name %></td>
+                        <td><%= task.description %></td>
+                        <td><%= task.due_date ? task.due_date.toLocaleDateString() : 'No due date' %></td>
+                        <td>
+                            <form action="/assigntask" method="POST" style="display: inline;">
+                                <input type="hidden" name="task_id" value="<%= task.task_id %>">
+                                <input type="hidden" name="list_id" value="<%= list_id %>">
+                                <input type="hidden" name="username" value="<%= username %>">
+                                <button type="submit" class="take-task-btn">Take Task</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+                <% if (nonAssignedTasks.length === 0) { %>
                     <tr>
                         <td colspan="4">No tasks found</td>
                     </tr>
                 <% } %>
             </tbody>
         </table>
-
 
         <!-- Create Task Form -->
         <div class="create-task-form">
@@ -124,7 +147,10 @@
                 <input type="hidden" name="username" value="<%= username %>">
                 <input type="date" name="due_date" placeholder="Due Date (Optional)">
                 <input type="hidden" name="list_id" value="<%= list_id %>">
-                <button type="submit">Create Task</button>
+                <div style="display: flex; gap: 10px; margin: 10px 0;">
+                    <button type="submit" name="assign_to_me" value="true" class="mark-completed-btn">Create & Assign to Me</button>
+                    <button type="submit" name="assign_to_me" value="false" class="take-task-btn">Create as Available Task</button>
+                </div>
             </form>
         </div>
 
@@ -140,4 +166,3 @@
     </div>
 </body>
 </html>
-

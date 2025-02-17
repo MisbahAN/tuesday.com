@@ -5,6 +5,7 @@
 *An innovative project management platform built during HackED 2025*
 
 [![HackED 2025](https://img.shields.io/badge/HackED-2025-orange.svg)](https://github.com/MisbahAN/tuesday.com)
+[![Visit our Devpost]](https://devpost.com/software/tuesday-com)
 [![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-412991.svg)](https://openai.com)
 </div>
 
@@ -52,7 +53,7 @@ backend/
     ├── register.ejs     # sign up page
     ├── login.ejs        # Login page
     ├── main.ejs         # List selection
-    └── tasks.ejs       # Task list
+    └── tasks.ejs        # Task list
 ```
 
 ### Backend Structure

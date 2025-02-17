@@ -20,7 +20,6 @@ function App() {
   ]);
 
   const [myTasks, setMyTasks] = useState([]);
-  const [filter, setFilter] = useState("");
   const [selectedTask, setSelectedTask] = useState(null);
   const [users, setUsers] = useState(['John Doe']);
 
@@ -45,6 +44,10 @@ function App() {
       setMyTasks(prevTasks => [...prevTasks, { ...taskToTake }]);
       setAvailableTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
     }
+  };
+
+  const handleDeleteTask = (taskId) => {
+    setAvailableTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
   };
 
   const handleTaskCompletion = (taskId, subtaskId = null) => {
@@ -93,9 +96,6 @@ function App() {
     }
   };
 
-  const filteredAvailableTasks = availableTasks.filter(task =>
-    task.title.toLowerCase().includes(filter.toLowerCase())
-  );
 
   return (
       <div className="app container">
@@ -130,20 +130,14 @@ function App() {
 
             <div className="task-list-container mb-4">
               <h2>Available Tasks</h2>
-              <input
-                type="text"
-                placeholder="Filter tasks..."
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                className="filter-input"
-              />
               <div className="task-list">
-                {filteredAvailableTasks.map(task => (
+                {availableTasks.map(task => (
                   <TaskItem
                     key={task.id}
                     task={task}
                     onTaskClick={handleTaskClick}
                     onTakeTask={handleTakeTask}
+                    onDeleteTask={handleDeleteTask}
                     isAvailable={true}
                   />
                 ))}

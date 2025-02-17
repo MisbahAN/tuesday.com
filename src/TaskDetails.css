@@ -9,7 +9,12 @@
     max-width: 800px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     line-height: 1.6;
+    overflow-y: auto;
+    max-height: 70vh;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
 }
+
 
 
 
@@ -32,7 +37,9 @@
     gap: 1rem 2rem;
     margin-bottom: 2rem;
     padding: 1rem 0;
+    overscroll-behavior: contain;
 }
+
 
 
 

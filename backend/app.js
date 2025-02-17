@@ -114,7 +114,7 @@ app.get('/get-task', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.render('home');
+    res.render('login');
 });
 app.get('/register', (req, res) => {
     res.render('register');

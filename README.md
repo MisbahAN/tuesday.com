@@ -10,6 +10,20 @@
 [![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-412991.svg)](https://openai.com)
 </div>
 
+## Table of Contents
+1. [Overview](#overview)
+2. [Core Features](#core-features)
+3. [Repository Structure](#technical-architecture)
+   - [Frontend Structure](#frontend-structure)
+   - [Backend Structure](#backend-structure)
+   - [AI Integration](#ai-integration)
+4. [Installation & Setup](#Installation & Setup)
+   - [Prerequisites](#prerequisites)
+   - [Getting Started](#getting-started)
+5. [Future Enhancements](#Future-Enhancements)
+6. [API Documentation](#api-documentation)
+7. [Future Enhancements](#future-enhancements)
+
 ---
 ## Overview
 
@@ -26,21 +40,45 @@
 ### 📊 Task Management System
 - Intuitive Kanban board interface
 - Customizable task workflows
-- 
+- Real-time collaboration tools
 
-- 🎮 Gamified project management
-- 🤝 Team collaboration tools
-- 📱 Responsive design
+### 📱 User Experience
+- Interactive dashboard
+- Real-time updates
+- Responsive design
 
 ## 📁 Repository Structure
 
+### Frontend Structure
 ```
-tuesday.com/
-├── AI-Integration/     # AI feature integration
-├── backend/           # Server-side logic
-├── public/           # Static assets
-├── src/              # React frontend
-└── README.md         # Documentation
+src/
+├── components/
+│   ├── Login.js         # Authentication components
+│   ├── Dashboard.js     # Main workspace
+│   ├── Task.js          # Task management
+│   └── AIRecommendations.js
+├── context/
+│   └── AuthContext.js   # Global state management
+└── hooks/
+    └── useTasks.js      # Custom task hooks
+```
+
+### Backend Structure
+```
+backend/
+├── models/
+│   ├── User.js          # User data schema
+│   └── Task.js          # Task data schema
+├── routes/
+│   ├── auth.js          # Authentication routes
+│   └── tasks.js         # Task management routes
+└── server.js            # Server configuration
+```
+
+### AI Integration
+```
+AI-Integration/
+└── openai.js            # OpenAI API integration
 ```
 
 ## 🛠️ Installation & Setup

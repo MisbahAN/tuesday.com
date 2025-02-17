@@ -12,17 +12,16 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Core Features](#core-features)
-3. [Repository Structure](#technical-architecture)
+2. [Core Features](#🚀-Core-Features)
+3. [Repository Structure](#📁-Repository-Structure)
    - [Frontend Structure](#frontend-structure)
    - [Backend Structure](#backend-structure)
    - [AI Integration](#ai-integration)
-4. [Installation & Setup](#Installation & Setup)
+4. [Installation & Setup](#Installation-&-Setup)
    - [Prerequisites](#prerequisites)
    - [Getting Started](#getting-started)
-5. [Future Enhancements](#Future-Enhancements)
-6. [API Documentation](#api-documentation)
-7. [Future Enhancements](#future-enhancements)
+5. [Future Enhancements](#🔮-Future-Enhancements)
+6. [Contributing](#🤝-Contributing)
 
 ---
 ## Overview

@@ -10,6 +10,8 @@
 [![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-412991.svg)](https://openai.com)
 </div>
 
+![Tuesday.com Dashboard](AI-Integration/tuesday-loginpage.png)
+
 ## Table of Contents
 1. [Overview](#overview)
 2. [Core Features](#-Core-Features)

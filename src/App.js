@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 import './index.css';
 import TaskDetails from './TaskDetails';
@@ -6,87 +7,93 @@ import TaskItem from './TaskItem';
 import CreateTaskForm from './CreateTaskForm';
 import AddUserForm from './AddUserForm';
 
+const API_BASE_URL = 'http://localhost:3000';
+
 
 function App() {
-  const [availableTasks, setAvailableTasks] = useState([
-    { id: 1, title: "Design Landing Page", dueDate: "2024-03-10", description: "Create initial design mockups.", completed: false, subtasks: [] },
-    { id: 2, title: "Implement User Authentication", dueDate: "2024-03-15", description: "Set up login/registration flow.", completed: false, subtasks: [] },
-    { id: 3, title: "Database Schema Design", dueDate: "2024-03-08", description: "Define database tables and relationships.", completed: false, subtasks: [] },
-    { id: 4, title: "Write API Endpoints", dueDate: "2024-03-20", description: "Create RESTful API for task management.", completed: false, subtasks: [] },
-    { id: 5, title: "Frontend Development", dueDate: "2024-03-22", description: "Coding the FrontEnd in reactJS", completed: false, subtasks: [] },
-    { id: 6, title: "Test Task 1", dueDate: "2024-03-25", description: "Testing task 1", completed: false, subtasks: [] },
-    { id: 7, title: "Test Task 2", dueDate: "2024-03-28", description: "Testing task 2", completed: false, subtasks: [] },
-    { id: 8, title: "Test Task 3", dueDate: "2024-03-30", description: "Testing task 3", completed: false, subtasks: [] },
-  ]);
+  const [availableTasks, setAvailableTasks] = useState([]);
 
   const [myTasks, setMyTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [users, setUsers] = useState(['John Doe']);
 
   useEffect(() => {
-    const savedMyTasks = localStorage.getItem('myTasks');
-    const savedAvailableTasks = localStorage.getItem('availableTasks');
-    const savedUsers = localStorage.getItem('users');
-    if (savedMyTasks) { setMyTasks(JSON.parse(savedMyTasks)); }
-    if (savedAvailableTasks) { setAvailableTasks(JSON.parse(savedAvailableTasks)); }
-    if (savedUsers) { setUsers(JSON.parse(savedUsers)); }
+    const fetchTasks = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/gotolist`);
+        const { assignedTasks, nonAssignedTasks } = response.data;
+        setMyTasks(assignedTasks);
+        setAvailableTasks(nonAssignedTasks);
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
+    
+    fetchTasks();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('myTasks', JSON.stringify(myTasks));
-    localStorage.setItem('availableTasks', JSON.stringify(availableTasks));
-    localStorage.setItem('users', JSON.stringify(users));
-  }, [myTasks, availableTasks, users]);
 
-  const handleTakeTask = (taskId) => {
-    const taskToTake = availableTasks.find(task => task.id === taskId);
-    if (taskToTake) {
-      setMyTasks(prevTasks => [...prevTasks, { ...taskToTake }]);
-      setAvailableTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+  const handleTakeTask = async (taskId) => {
+    try {
+      await axios.post(`${API_BASE_URL}/assigntask`, {
+        task_id: taskId,
+        username: 'currentUser' // TODO: Replace with actual user from auth
+      });
+      const updatedTasks = availableTasks.filter(task => task.task_id !== taskId);
+      const takenTask = availableTasks.find(task => task.task_id === taskId);
+      setAvailableTasks(updatedTasks);
+      setMyTasks(prev => [...prev, takenTask]);
+    } catch (error) {
+      console.error('Error assigning task:', error);
     }
   };
 
-  const handleDeleteTask = (taskId) => {
-    setAvailableTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+  const handleDeleteTask = async (taskId) => {
+    try {
+      await axios.delete(`${API_BASE_URL}/tasks/${taskId}`);
+      setAvailableTasks(prevTasks => prevTasks.filter(task => task.task_id !== taskId));
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
   };
 
-  const handleTaskCompletion = (taskId, subtaskId = null) => {
-    setMyTasks(prevTasks =>
-      prevTasks.map(task => {
-        if (task.id === taskId) {
-          if (subtaskId === null) {
+  const handleTaskCompletion = async (taskId, subtaskId = null) => {
+    try {
+      await axios.post(`${API_BASE_URL}/marktaskcompleted`, { task_id: taskId });
+      setMyTasks(prevTasks =>
+        prevTasks.map(task => {
+          if (task.task_id === taskId) {
             return { ...task, completed: !task.completed };
-          } else {
-            return {
-              ...task,
-              subtasks: task.subtasks.map(sub =>
-                sub.id === subtaskId ? { ...sub, completed: !sub.completed } : sub
-              ),
-            };
           }
-        }
-        return task;
-      })
-    );
+          return task;
+        })
+      );
+    } catch (error) {
+      console.error('Error marking task complete:', error);
+    }
   };
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);
   };
 
-  const handleAddTask = (newTask, destination) => {
-    const taskId = Date.now();
-    const task = {
-      id: taskId,
-      ...newTask,
-      completed: false,
-      subtasks: []
-    };
-    
-    if (destination === 'available') {
-      setAvailableTasks(prevTasks => [...prevTasks, task]);
-    } else if (destination === 'my') {
-      setMyTasks(prevTasks => [...prevTasks, task]);
+  const handleAddTask = async (newTask, destination) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/createtask`, {
+        task_name: newTask.title,
+        description: newTask.description,
+        due_date: newTask.dueDate,
+        assign_to_me: destination === 'my'
+      });
+      
+      const createdTask = response.data;
+      if (destination === 'available') {
+        setAvailableTasks(prev => [...prev, createdTask]);
+      } else if (destination === 'my') {
+        setMyTasks(prev => [...prev, createdTask]);
+      }
+    } catch (error) {
+      console.error('Error creating task:', error);
     }
   };
 

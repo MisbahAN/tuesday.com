@@ -2,21 +2,33 @@ import React, { useState } from 'react';
 import './Forms.css';
 
 function CreateTaskForm({ onAddTask }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [destination, setDestination] = useState('');
   const [taskData, setTaskData] = useState({
     title: '',
     description: '',
     dueDate: ''
   });
 
-  const handleSubmit = (e, destination) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (taskData.title && taskData.dueDate) {
-      onAddTask(taskData, destination);
+    if (!taskData.title || !taskData.dueDate) return;
+    
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      await onAddTask(taskData, destination);
       setTaskData({
         title: '',
         description: '',
         dueDate: ''
       });
+    } catch (err) {
+      setError('Failed to create task. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -74,17 +86,26 @@ function CreateTaskForm({ onAddTask }) {
           <button 
             type="button" 
             className="submit-button available-button"
-            onClick={(e) => handleSubmit(e, 'available')}
+            onClick={(e) => {
+              setDestination('available');
+              handleSubmit(e);
+            }}
+            disabled={isSubmitting}
           >
-            Add to Available Tasks
+            {isSubmitting && destination === 'available' ? 'Adding...' : 'Add to Available Tasks'}
           </button>
           <button 
             type="button" 
             className="submit-button my-button"
-            onClick={(e) => handleSubmit(e, 'my')}
+            onClick={(e) => {
+              setDestination('my');
+              handleSubmit(e);
+            }}
+            disabled={isSubmitting}
           >
-            Add to My Tasks
+            {isSubmitting && destination === 'my' ? 'Adding...' : 'Add to My Tasks'}
           </button>
+          {error && <div className="error-message">{error}</div>}
         </div>
       </form>
     </div>

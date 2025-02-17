@@ -62,7 +62,12 @@ app.get('/main', async (req, res) => {
     if (req.isAuthenticated()) {
         try {
             const username = req.user.username;
-            const lists = await Lists.find({ username }).sort({ list_name: 1 }).exec();
+            // Get list assignments for the user
+            const assignments = await ListAssignments.find({ username });
+            // Get list_ids from assignments
+            const listIds = assignments.map(a => a.list_id);
+            // Get lists using the list_ids
+            const lists = await Lists.find({ list_id: { $in: listIds } }).sort({ list_name: 1 }).exec();
             res.render('main', {
                 username: username,
                 lists: lists
@@ -78,29 +83,34 @@ app.get('/main', async (req, res) => {
 
 // Route to handle adding a user to the list
 app.post('/addusertolist', async (req, res) => {
-    const { username, list_id } = req.body; // Get username and list_id from the form
+    const { username, list_id } = req.body;
 
     try {
-        // Step 1: Check if the list exists
+        // Check if the user exists
+        const user = await Users.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Check if the list exists
         const list = await Lists.findOne({ list_id });
         if (!list) {
             return res.status(404).json({ error: 'List not found' });
         }
 
-        // Step 2: Create a new list entry for the user
-        const newListEntry = new Lists({
-            list_id: list.list_id, // Use the same list_id
-            list_name: list.list_name // Use the same list_name
-        });
+        // Check if the user is already assigned to the list
+        const existingAssignment = await ListAssignments.findOne({ username, list_id });
+        if (existingAssignment) {
+            return res.status(400).json({ error: 'User is already assigned to this list' });
+        }
 
+        // Create new list assignment
         const newListAssignment = new ListAssignments({
             username,
             list_id
         });
-        // Step 3: Save the new list entry to the database
-        await newListEntry.save();
+
         await newListAssignment.save();
-        // Step 4: Redirect to the tasks page
         res.redirect(`/gotolist?list_id=${list_id}`);
     } catch (err) {
         console.error('Error adding user to list:', err);
@@ -146,11 +156,18 @@ app.get('/gotolist', async (req, res) => {
         // Step 1: Fetch all tasks for the current list
         const allTasks = await Tasks.find({ list_id });
 
-        // Step 2: Fetch assignments for the current user in the current list
-        const userAssignments = await Assignments.find({ username, list_id });
-        const assignedTaskIds = userAssignments.map(assignment => assignment.task_id);
+        // Step 2: Fetch all assignments for the current list
+        const allAssignments = await Assignments.find({ list_id });
+        
+        // Step 3: Get task IDs assigned to the current user
+        const userAssignments = allAssignments.filter(a => a.username === username);
+        const assignedTaskIds = userAssignments.map(a => a.task_id);
 
-        // Step 3: Separate assigned and non-assigned tasks
+        // Step 4: Get task IDs assigned to other users
+        const otherAssignments = allAssignments.filter(a => a.username !== username);
+        const otherAssignedTaskIds = otherAssignments.map(a => a.task_id);
+
+        // Step 5: Separate tasks
         const assignedTasks = allTasks
             .filter(task => assignedTaskIds.includes(task.task_id))
             .sort((a, b) => {
@@ -162,7 +179,8 @@ app.get('/gotolist', async (req, res) => {
             });
 
         const nonAssignedTasks = allTasks
-            .filter(task => !assignedTaskIds.includes(task.task_id))
+            .filter(task => !assignedTaskIds.includes(task.task_id) && 
+                           !otherAssignedTaskIds.includes(task.task_id))
             .sort((a, b) => {
                 // Sort by completion status first, then by task_id
                 if (a.completed === b.completed) {
@@ -237,16 +255,24 @@ async function addList(username, list_name) {
         throw new Error('User not found');
     }
 
-        const list_id = Math.floor(Math.random() * 1000000);
-        const newList = new Lists({
-            list_id,
-            username: user.username,
-            list_name
-        });
+    const list_id = Math.floor(Math.random() * 1000000);
+    const newList = new Lists({
+        list_id,
+        username: user.username,
+        list_name
+    });
 
-        await newList.save();
-        return newList;
-    }
+    await newList.save();
+
+    // Create list assignment for the creator
+    const newListAssignment = new ListAssignments({
+        username: user.username,
+        list_id
+    });
+    await newListAssignment.save();
+
+    return newList;
+}
 
 
 app.post('/createtask', async (req, res) => {

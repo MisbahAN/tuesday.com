@@ -2,38 +2,43 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #1a1a1a;
-  color: #e0e0e0;
+  background-color: var(--background-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
   height: 100vh;
+  line-height: 1.6;
 }
 
 .app {
   max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #2d2d2d;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 1.25rem auto;
+  padding: 1.875rem;
+  background-color: var(--surface-color);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 2.5rem);
 }
 
 h1 {
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  margin-bottom: 20px;
+  margin: 0 0 30px 0;
   color: #ffffff;
-  border-bottom: 2px solid #4d90fe;
-  padding-bottom: 10px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  border-bottom: 3px solid #4d90fe;
+  padding-bottom: 15px;
 }
 
 .task-container {
   display: flex;
-  gap: 20px;
+  gap: 1.875rem;
   flex-grow: 1;
   justify-content: center;
+  padding: 1.25rem 0;
 }
 
 .task-list-container {
@@ -44,13 +49,16 @@ h1 {
 }
 
 .task-list-container h2 {
-  font-family: 'Poppins', sans-serif;
-  margin-top: 0;
-  color: #ffffff;
-  border-bottom: 1px solid #444;
-  padding-bottom: 8px;
-  margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    margin: 0 0 20px 0;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
 }
+
 
 .task-list {
   flex-grow: 1;
@@ -59,29 +67,36 @@ h1 {
 }
 
 /* Scrollbar Styling */
-.task-list::-webkit-scrollbar { width: 8px; }
-.task-list::-webkit-scrollbar-track { background: #2d2d2d; }
-.task-list::-webkit-scrollbar-thumb { background: #4d4d4d; border-radius: 4px; }
+.task-list::-webkit-scrollbar { width: 10px; }
+.task-list::-webkit-scrollbar-track { background: #2a2a2a; }
+.task-list::-webkit-scrollbar-thumb { 
+  background: #4d4d4d; 
+  border-radius: 5px;
+  border: 2px solid #2a2a2a;
+}
 .task-list::-webkit-scrollbar-thumb:hover { background: #666; }
 
 
 .task-item {
-  background-color: #3a3a3a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  padding: 12px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
 }
 
+
 .task-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  border-color: #4d90fe;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-color: var(--primary-color);
+    background-color: var(--surface-color-dark);
 }
+
 .task-item.available-task:hover{
   border-left: 4px solid #007bff;
 }

@@ -1,83 +1,52 @@
-// src/TaskItem.js
-import React, { useState } from 'react';
+import React from 'react';
+import './index.css';
 
-function TaskItem({ task, onTaskClick, onTaskCompletion, isAvailable, onTakeTask }) {
-    const [showSubtasks, setShowSubtasks] = useState(false);
-
-    const toggleSubtasks = () => {
-        setShowSubtasks(!showSubtasks);
-    };
-
-    const handleMainTaskClick = (e) => {
-        if (e.target.type !== 'checkbox' && e.target.tagName !== 'BUTTON') {
-             if (!isAvailable) {
-                toggleSubtasks();
-            }
-          onTaskClick(task);
-        }
-    };
+function TaskItem({ task, onTaskClick, onTaskCompletion, onTakeTask, isAvailable }) {
+  const handleClick = () => {
+    onTaskClick(task);
+  };
 
 
-    return (
-        <div className={`task-item ${isAvailable ? 'available-task' : 'my-task'} ${task.completed ? 'completed' : ''}`}>
-            <div className="task-item-header" onClick={handleMainTaskClick}>
-                {!isAvailable && (
-                    <input
-                        type="checkbox"
-                        checked={task.completed}
-                        onChange={(e) => {
-                            e.stopPropagation();
-                            onTaskCompletion(task.id);
-                        }}
-                    />
-                )}
-                <span className="task-title">{task.title}</span>
+  return (
+    <div 
+      className={`task-item ${task.completed ? 'completed' : ''} ${isAvailable ? 'available-task' : ''} mb-2 p-2`}
+      onClick={handleClick}
+    >
+      <div className="task-item-header flex items-center justify-between">
+        <span className="task-title">{task.title}</span>
+        
+        {isAvailable ? (
+          <button 
+            className="take-task-button bg-primary text-white px-3 py-1 rounded hover:bg-primary-dark transition-all"
+            onClick={(e) => {
+              e.stopPropagation();
+              onTakeTask(task.id);
+            }}
+          >
+            Take Task
+          </button>
+        ) : (
+          <input
+            type="checkbox"
+            checked={task.completed}
+            onChange={(e) => {
+              onTaskCompletion(task.id);
+            }}
 
-                <div className="task-details-row">
-                    <span className="due-date">Due: {task.dueDate}</span>
-                    {/* Removed status and priority */}
+            className="task-checkbox w-4 h-4"
+          />
+        )}
+      </div>
 
-                    {isAvailable && (
-                        <button
-                            className="take-button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onTakeTask(task.id);
-                            }}
-                        >
-                            Take
-                        </button>
-                    )}
-                </div>
-              {/* Show/Hide Icon */}
-                {!isAvailable && task.subtasks && task.subtasks.length > 0 && (
-                    <span className={`toggle-icon ${showSubtasks ? 'expanded' : ''}`}>
-                        {showSubtasks ? '▼' : '▶'}
-                    </span>
-                )}
-            </div>
-
-            {/* Subtasks */}
-            {showSubtasks && task.subtasks && task.subtasks.length > 0 && (
-                <div className="subtasks">
-                    {task.subtasks.map((subtask) => (
-                        <div key={subtask.id} className="subtask">
-                            <input
-                                type="checkbox"
-                                checked={subtask.completed}
-                                onChange={(e) => {
-                                    e.stopPropagation();
-                                    onTaskCompletion(task.id, subtask.id);
-                                }}
-                            />
-                            <span className={`subtask-title ${subtask.completed ? 'completed' : ''}`}>{subtask.title}</span>
-                            <span className="subtask-due-date">Due: {subtask.dueDate}</span>
-                        </div>
-                    ))}
-                </div>
-            )}
+      {task.dueDate && (
+        <div className="task-due-date text-sm text-text-secondary mt-1">
+          Due: {new Date(task.dueDate).toLocaleDateString()}
         </div>
-    );
+      )}
+
+
+    </div>
+  );
 }
 
 export default TaskItem;

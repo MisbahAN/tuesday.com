@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './index.css';
 import TaskDetails from './TaskDetails';
 import TaskItem from './TaskItem';
 import CreateTaskForm from './CreateTaskForm';
 import AddUserForm from './AddUserForm';
+
 
 function App() {
   const [availableTasks, setAvailableTasks] = useState([
@@ -96,8 +98,9 @@ function App() {
   );
 
   return (
-    <div className="app">
-      <h1>Team Task Manager</h1>
+      <div className="app container">
+        <h1 className="text-center">Team Task Manager</h1>
+
       {selectedTask ? (
         <TaskDetails
           task={selectedTask}
@@ -110,8 +113,8 @@ function App() {
       ) : (
         <>
           <div className="task-container">
-            <div className="task-list-container">
-              <h2>&gt; My Tasks</h2>
+            <div className="task-list-container mb-4">
+              <h2>My Tasks</h2>
               <div className="task-list">
                 {myTasks.map(task => (
                   <TaskItem
@@ -125,8 +128,8 @@ function App() {
               </div>
             </div>
 
-            <div className="task-list-container">
-              <h2>&gt; Available Tasks</h2>
+            <div className="task-list-container mb-4">
+              <h2>Available Tasks</h2>
               <input
                 type="text"
                 placeholder="Filter tasks..."

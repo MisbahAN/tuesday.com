@@ -5,7 +5,7 @@
 *An innovative project management platform built during HackED 2025*
 
 [![HackED 2025](https://img.shields.io/badge/HackED-2025-orange.svg)](https://github.com/MisbahAN/tuesday.com)
-[![Visit our Devpost](https://img.shields.io/badge/Visit%our%Devpost-blue.svg)](https://devpost.com/software/tuesday-com)
+[![Visit our Devpost](https://img.shields.io/badge/Devpost-blue.svg)](https://devpost.com/software/tuesday-com)
 [![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-412991.svg)](https://openai.com)
 </div>
 

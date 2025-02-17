@@ -1,0 +1,225 @@
+/* src/App.css */
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #3498db;
+}
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  padding-bottom: 10px;
+}
+
+.task-container {
+  display: flex;
+  gap: 20px;
+}
+
+.task-list-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-list-container h2 {
+  font-family: 'Poppins', sans-serif;
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.task-list {
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Scrollbar Styling */
+.task-list::-webkit-scrollbar { width: 8px; }
+.task-list::-webkit-scrollbar-track { background: #f0f0f0; }
+.task-list::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
+.task-list::-webkit-scrollbar-thumb:hover { background: #999; }
+
+
+.task-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.task-item.available-task:hover{
+  border-left: 4px solid #007bff;
+}
+.task-item.completed {
+  opacity: 0.6;
+}
+
+.task-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 100%;
+}
+
+.task-title {
+  flex-grow: 1;
+  font-size: 1rem;
+  color: #2c3e50;
+  margin-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+.task-title.completed {
+  text-decoration: line-through;
+}
+
+.task-details-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.due-date {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.take-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.take-button:hover {
+  background-color: #2980b9;
+}
+
+.filter-input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Subtasks */
+.subtasks {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.subtask {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subtask-title {
+  font-size: 0.9rem;
+  color: #444;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.subtask-due-date{
+font-size: 0.7rem;
+color: #444;
+margin-left: auto;
+}
+.subtask-title.completed {
+  text-decoration: line-through;
+}
+.toggle-icon {
+  margin-left: auto;
+  font-size: 1.2rem;
+  color: #777;
+}
+.welcome-message {
+    font-size: 1rem;
+    color: #555;
+}
+
+.logout-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.back-button{
+    margin-bottom: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+.back-button:hover{
+    background-color: #2980b9;
+}

@@ -78,8 +78,6 @@ app.post('/generate-subtasks', async (req, res) => {
                     list_id: task.list_id
                 });
                 await newAssignment.save();
-                res.redirect(`/gotolist?list_id=${task.list_id}`);
-
             }
         }
 
@@ -87,14 +85,8 @@ app.post('/generate-subtasks', async (req, res) => {
         await Tasks.deleteOne({ task_id: task.task_id });
         await Assignments.deleteMany({ task_id: task.task_id });
 
-        res.json({ 
-            original_task_id: task.task_id,
-            new_tasks: createdTasks.map(t => ({
-                task_id: t.task_id,
-                task_name: t.task_name,
-                list_id: t.list_id
-            }))
-        });
+        // Redirect after all operations are complete
+        res.redirect(`/gotolist?list_id=${task.list_id}`);
     } catch (error) {
         console.error('Error generating subtasks:', error);
         res.status(500).json({ error: 'Internal server error' });

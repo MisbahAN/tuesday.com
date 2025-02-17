@@ -4,14 +4,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
+    <style>
+        /* Font Imports (Using Google Fonts) */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #222228;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            width: 400px; /*  Adjust width as needed */
+            text-align: center; /* Center-align content */
+        }
+
+        h1 {
+             color: #806BFF;
+            font-size: 36px; /* Larger title */
+            font-weight: 700;
+            margin-bottom: 0px; /* Remove default margin */
+        }
+      
+        .com{
+          font-size: 18px;
+          vertical-align: top;
+        }
+
+        h2 { /* For section headings ("Lists", "Create List") */
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 30px; /* Space above section headings */
+            margin-bottom: 15px;
+              text-align: left; /* Left-align section headings */
+
+        }
+      
+       h3{
+            color: white;
+            margin-bottom: 25px;
+            font-size: 18px;      /*  Slightly smaller for "Welcome back" */
+            font-weight: 500;  /*  Medium weight */
+       }
+
+        label {
+            display: block;  /* Labels on their own line */
+            margin-bottom: 8px;  /* Space below labels */
+            text-align: left;  /* Left-align labels */
+            font-weight: 500;    /* Slightly bolder labels */
+            color: #ccc;    /* Slightly lighter label color */
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            background-color: #333;
+            color: #fff;
+            outline: none;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            box-sizing: border-box; /* Include padding and border in width */
+        }
+      
+        select{
+            appearance: none;
+           -webkit-appearance: none;
+           -moz-appearance: none;
+          background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-position: right 10px center;
+            background-repeat: no-repeat;
+          padding-right: 30px;
+        }
+
+        select:focus,
+        input[type="text"]:focus {
+            border-color: #806BFF;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: #4F46E5;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #635BFF;
+        }
+
+        /*Placeholder Styles*/
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+          color: #999;
+          opacity: 1; /* Firefox */
+          font-weight: 400;
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+          color: #999;
+          font-weight:400;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+          color: #999;
+          font-weight: 400;
+        }
+        /* Remove the up and down arrows from select in Chrome/Safari */
+
+
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Your Lists</h1>
+       <h1>tuesday<span class = "com">.com</span></h1>
+         <h3>Welcome, <%= username %></h3>
 
-        <!-- Dropdown to select a list -->
+
+        <h2>Lists</h2>
         <form action="/gotolist" method="GET">
-            <label for="list-select">Choose a list:</label>
+            <label for="list-select">View list</label>
             <select id="list-select" name="list_id" required>
                 <% lists.forEach(list => { %>
                     <option value="<%= list.list_id %>"><%= list.list_name %></option>
@@ -22,11 +154,10 @@
 
         </form>
 
-        <!-- Create List Form -->
-        <h1>Create a New List</h1>
+        <h2>Create List</h2>
         <form action="/addList" method="POST">
-            <label for="list_name">List Name:</label>
-            <input type="text" id="list_name" name="list_name" required>
+            <label for="list_name">List name</label>
+            <input type="text" id="list_name" name="list_name" placeholder="Enter list name" required>
             <input type="hidden" name="username" value="<%= username %>">
             <button type="submit">Create List</button>
         </form>

@@ -1,21 +1,225 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Login</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <div class="mainbox">
-        <h1>Login</h1>
-        <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <form action="/" method="get">
-            <button type="submit">Home</button>
-        </form>
-        <a href="/register">Already have an account? Sign Up</a>
+<head>
+    <title>Tuesday.com</title>
+    <style>
+        /* Modern Dark Theme */
+        :root {
+            --bg-primary: #1a1b1e;
+            --bg-secondary: #22252c;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #4f46e5;
+            --accent-hover: #6366f1;
+            --input-bg: #2a2d36;
+            --input-border: #3a3f4b;
+            --divider-color: rgba(255, 255, 255, 0.1);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .landing-container {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1b1e 0%, #22252c 100%);
+        }
+
+        .auth-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-form-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.25),
+                0 4px 24px rgba(79, 70, 229, 0.15),
+                0 8px 16px rgba(99, 102, 241, 0.15),
+                0 0 40px rgba(128, 107, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .auth-form-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 12px 48px rgba(0, 0, 0, 0.35),
+                0 8px 32px rgba(79, 70, 229, 0.2),
+                0 12px 24px rgba(99, 102, 241, 0.2),
+                0 0 50px rgba(128, 107, 255, 0.15);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-section h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            color: #806BFF;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .logo-section .com {
+            font-size: 18px;
+            vertical-align: top;
+        }
+
+        .logo-section h2 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .submit-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            background: rgba(79, 70, 229, 0.1);
+            text-align: center;
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            background: rgba(79, 70, 229, 0.2);
+            transform: translateY(-1px);
+            color: var(--text-primary);
+        }
+
+        .error-message {
+            background: rgba(220, 38, 38, 0.1);
+            color: #ef4444;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-form-box {
+                padding: 1.5rem;
+            }
+            
+            .logo-section h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="auth-section">
+            <div class="auth-form-box">
+                <div class="logo-section">
+                    <h1>tuesday<span class="com">.com</span></h1>
+                    <h2>Sign in</h2>
+                </div>
+                <form action="/login" method="POST">
+                    <div class="input-group">
+                        <input type="text" name="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="submit-button">Sign in</button>
+                </form>
+                <a href="/register" class="nav-link">Create account</a>
+            </div>
+        </div>
     </div>
-    </body>
+</body>
 </html>

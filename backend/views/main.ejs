@@ -3,164 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>Tuesday.com</title>
     <style>
-        /* Font Imports (Using Google Fonts) */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        /* Modern Dark Theme */
+        :root {
+            --bg-primary: #1a1b1e;
+            --bg-secondary: #22252c;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #4f46e5;
+            --accent-hover: #6366f1;
+            --input-bg: #2a2d36;
+            --input-border: #3a3f4b;
+            --divider-color: rgba(255, 255, 255, 0.1);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #121212;
-            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .landing-container {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1b1e 0%, #22252c 100%);
+        }
+
+        .main-section {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
         }
 
-        .container {
-            background-color: #222228;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-            width: 400px; /*  Adjust width as needed */
-            text-align: center; /* Center-align content */
-        }
-
-        h1 {
-             color: #806BFF;
-            font-size: 36px; /* Larger title */
-            font-weight: 700;
-            margin-bottom: 0px; /* Remove default margin */
-        }
-      
-        .com{
-          font-size: 18px;
-          vertical-align: top;
-        }
-
-        h2 { /* For section headings ("Lists", "Create List") */
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: 600;
-            margin-top: 30px; /* Space above section headings */
-            margin-bottom: 15px;
-              text-align: left; /* Left-align section headings */
-
-        }
-      
-       h3{
-            color: white;
-            margin-bottom: 25px;
-            font-size: 18px;      /*  Slightly smaller for "Welcome back" */
-            font-weight: 500;  /*  Medium weight */
-       }
-
-        label {
-            display: block;  /* Labels on their own line */
-            margin-bottom: 8px;  /* Space below labels */
-            text-align: left;  /* Left-align labels */
-            font-weight: 500;    /* Slightly bolder labels */
-            color: #ccc;    /* Slightly lighter label color */
-        }
-
-        select,
-        input[type="text"] {
+        .main-content-box {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #555;
-            border-radius: 8px;
-            background-color: #333;
-            color: #fff;
-            outline: none;
-            font-size: 16px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-            box-sizing: border-box; /* Include padding and border in width */
+            max-width: 500px;
+            padding: 2.5rem;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.25),
+                0 4px 24px rgba(79, 70, 229, 0.15),
+                0 8px 16px rgba(99, 102, 241, 0.15),
+                0 0 40px rgba(128, 107, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            transform: translateY(0);
+            transition: all 0.3s ease;
         }
-      
-        select{
+
+        .main-content-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 12px 48px rgba(0, 0, 0, 0.35),
+                0 8px 32px rgba(79, 70, 229, 0.2),
+                0 12px 24px rgba(99, 102, 241, 0.2),
+                0 0 50px rgba(128, 107, 255, 0.15);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-section h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            color: #806BFF;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .logo-section .com {
+            font-size: 18px;
+            vertical-align: top;
+        }
+
+        .logo-section h3 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            text-align: left;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .input-group select,
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-group select {
             appearance: none;
-           -webkit-appearance: none;
-           -moz-appearance: none;
-          background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
             background-position: right 10px center;
             background-repeat: no-repeat;
-          padding-right: 30px;
+            padding-right: 2.5rem;
         }
 
-        select:focus,
-        input[type="text"]:focus {
-            border-color: #806BFF;
+        .input-group select:focus,
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
         }
 
-        button[type="submit"] {
+        .input-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .submit-button {
             width: 100%;
-            padding: 15px;
-            background-color: #4F46E5;
-            color: #fff;
+            padding: 1rem;
+            background: var(--accent-primary);
+            color: white;
             border: none;
             border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 18px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            transition: background-color 0.2s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
         }
 
-        button[type="submit"]:hover {
-            background-color: #635BFF;
+        .submit-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
-        /*Placeholder Styles*/
-        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-          color: #999;
-          opacity: 1; /* Firefox */
-          font-weight: 400;
+        @media (max-width: 480px) {
+            .main-content-box {
+                padding: 1.5rem;
+            }
+            
+            .logo-section h1 {
+                font-size: 1.75rem;
+            }
         }
-
-        :-ms-input-placeholder { /* Internet Explorer 10-11 */
-          color: #999;
-          font-weight:400;
-        }
-
-        ::-ms-input-placeholder { /* Microsoft Edge */
-          color: #999;
-          font-weight: 400;
-        }
-        /* Remove the up and down arrows from select in Chrome/Safari */
-
-
     </style>
 </head>
 <body>
-    <div class="container">
-       <h1>tuesday<span class = "com">.com</span></h1>
-         <h3>Welcome, <%= username %></h3>
+    <div class="landing-container">
+        <div class="main-section">
+            <div class="main-content-box">
+                <div class="logo-section">
+                    <h1>tuesday<span class="com">.com</span></h1>
+                    <h3>Welcome, <%= username %></h3>
+                </div>
 
+                <h2 class="section-title">Lists</h2>
+                <form action="/gotolist" method="GET">
+                    <div class="input-group">
+                        <label for="list-select">View list</label>
+                        <select id="list-select" name="list_id" required>
+                            <% lists.forEach(list => { %>
+                                <option value="<%= list.list_id %>"><%= list.list_name %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <input type="hidden" name="username" value="<%= username %>">
+                    <button type="submit" class="submit-button">Go to List</button>
+                </form>
 
-        <h2>Lists</h2>
-        <form action="/gotolist" method="GET">
-            <label for="list-select">View list</label>
-            <select id="list-select" name="list_id" required>
-                <% lists.forEach(list => { %>
-                    <option value="<%= list.list_id %>"><%= list.list_name %></option>
-                <% }); %>
-            </select>
-            <input type="hidden" name="username" value="<%= username %>">
-            <button type="submit">Go to List</button>
-
-        </form>
-
-        <h2>Create List</h2>
-        <form action="/addList" method="POST">
-            <label for="list_name">List name</label>
-            <input type="text" id="list_name" name="list_name" placeholder="Enter list name" required>
-            <input type="hidden" name="username" value="<%= username %>">
-            <button type="submit">Create List</button>
-        </form>
+                <h2 class="section-title">Create List</h2>
+                <form action="/addList" method="POST">
+                    <div class="input-group">
+                        <label for="list_name">List name</label>
+                        <input type="text" id="list_name" name="list_name" placeholder="Enter list name" required>
+                    </div>
+                    <input type="hidden" name="username" value="<%= username %>">
+                    <button type="submit" class="submit-button">Create List</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

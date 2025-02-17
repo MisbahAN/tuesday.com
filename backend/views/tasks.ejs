@@ -88,6 +88,15 @@
                                     <input type="hidden" name="task_id" value="<%= task.task_id %>">
                                     <button type="submit" class="mark-completed-btn">Mark as Completed</button>
                                 </form>
+                                <form action="/generate-subtasks" method="POST" style="display: inline;">
+                                    <input type="hidden" name="username" value="<%= username %>">
+                                    <input type="hidden" name="list_id" value="<%= list_id %>">
+                                    <input type="hidden" name="task_id" value="<%= task.task_id %>">
+                                    <input type="hidden" name="task_name" value="<%= task.task_name %>">
+                                    <input type="hidden" name="task_description" value="<%= task.description %>">
+                                    <button type="submit" class="take-task-btn">Generate Subtasks</button>
+                                </form>
+
                             <% } else { %>
                                 <span style="color: #4CAF50; font-weight: bold;">✓ Completed</span>
                             <% } %>

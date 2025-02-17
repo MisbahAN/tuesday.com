@@ -10,6 +10,16 @@ const Recommendations = require('./models/Recommendations');
 const Tasks = require('./models/Tasks');
 const Assignments = require('./models/Assignments');
 const ListAssignments = require('./models/ListAssignments');
+// DUE DATE ADD , DESCRIPTION , DELETE ORIGINAL TASK
+
+// AI Dependencies
+const axios = require('axios'); // For making HTTP requests
+require('dotenv').config(); // For environment variables
+
+// Add environment variables
+const TOGETHER_AI_API_KEY = process.env.TOGETHER_AI_API_KEY; // Load API key from .env
+const TOGETHER_AI_ENDPOINT = "https://api.together.xyz/v1/chat/completions"; // Together AI endpoint
+
 
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://Admin:abcd1234@cluster0.ea58rvf.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -32,6 +42,85 @@ passport.serializeUser (Users.serializeUser ());
 passport.deserializeUser (Users.deserializeUser ());
 
 // Routes
+
+// AI Dependency
+
+app.post('/generate-subtasks', async (req, res) => {
+    try {
+        const { task_id } = req.body;
+        if (!task_id) return res.status(400).json({ error: 'Missing task_id' });
+
+        const task = await Tasks.findOne({ task_id: parseInt(task_id) });
+        if (!task) return res.status(404).json({ error: 'Task not found' });
+
+        const subtasks = await generateSubtasks(task.task_name, task.description, task.due_date);
+
+        
+        // Create new tasks for each subtask
+        const createdTasks = [];
+        for (const subtask of subtasks) {
+            const newTask = new Tasks({
+                task_id: Math.floor(Math.random() * 1000000),
+                task_name: subtask.title,
+                list_id: task.list_id,
+                description: '',
+                completed: false
+            });
+            await newTask.save();
+            createdTasks.push(newTask);
+
+            // Assign to current user if original task was assigned
+            const assignment = await Assignments.findOne({ task_id: task.task_id });
+            if (assignment) {
+                const newAssignment = new Assignments({
+                    task_id: newTask.task_id,
+                    username: assignment.username,
+                    list_id: task.list_id
+                });
+                await newAssignment.save();
+                res.redirect(`/gotolist?list_id=${task.list_id}`);
+
+            }
+        }
+
+        // Remove the original task
+        await Tasks.deleteOne({ task_id: task.task_id });
+        await Assignments.deleteMany({ task_id: task.task_id });
+
+        res.json({ 
+            original_task_id: task.task_id,
+            new_tasks: createdTasks.map(t => ({
+                task_id: t.task_id,
+                task_name: t.task_name,
+                list_id: t.list_id
+            }))
+        });
+    } catch (error) {
+        console.error('Error generating subtasks:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+app.get('/get-task', async (req, res) => {
+    try {
+        const { task_id } = req.query;
+        const task = await Tasks.findOne({ task_id: parseInt(task_id) });
+        
+        if (task) {
+            res.json({
+                name: task.task_name,
+                description: task.description
+            });
+        } else {
+            res.status(404).json({ error: 'Task not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching task:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 app.get('/', (req, res) => {
     res.render('home');
 });
@@ -356,6 +445,52 @@ async function createTasks(listIds) {
         return savedTasks;
     } catch (err) {
         console.error('Error saving tasks:', err);
+    }
+}
+// AI Dependencies
+async function generateSubtasks(taskName, description, due_date) {
+    if (!description || description.trim() === '') {
+        throw new Error('Task description is required to generate subtasks');
+    }
+
+    const headers = {
+        'Authorization': `Bearer ${TOGETHER_AI_API_KEY}`,
+        'Content-Type': 'application/json'
+    };
+
+    const payload = {
+        model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+        messages: [
+            { role: "system", content: "You are a task manager assistant." },
+            { role: "user", content: `Break down the task '${taskName}' into subtasks. Task description: '${description}'. Provide 3-5 subtasks in a numbered list.` }
+        ],
+        temperature: 0.7
+    };
+
+    try {
+        const response = await axios.post(TOGETHER_AI_ENDPOINT, payload, { headers });
+        const content = response.data.choices[0].message.content.trim();
+        const subtasks = [];
+
+        content.split('\n').forEach(line => {
+            const trimmedLine = line.trim();
+            if (trimmedLine && /^\d+\./.test(trimmedLine)) {
+                const subtaskText = trimmedLine.split('. ').slice(1).join('. ').trim();
+                subtasks.push({
+                    id: subtasks.length + 1,
+                    title: `${taskName}: ${subtaskText}`,
+                    description: description,
+                    due_date: due_date,
+                    completed: false
+                });
+            }
+        });
+
+        return subtasks;
+
+    } catch (error) {
+        console.error('Error connecting to Together AI:', error);
+        return [];
     }
 }
 

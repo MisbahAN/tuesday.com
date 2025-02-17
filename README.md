@@ -35,7 +35,6 @@
 
 ### 🤖 AI-Driven Task Automation
 - Intelligent task generation and management
-- Smart task prioritization
 - Predictive task scheduling
 
 ### 📊 Task Management System

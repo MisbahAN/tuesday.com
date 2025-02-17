@@ -10,7 +10,6 @@ const Recommendations = require('./models/Recommendations');
 const Tasks = require('./models/Tasks');
 const Assignments = require('./models/Assignments');
 const ListAssignments = require('./models/ListAssignments');
-// DUE DATE ADD , DESCRIPTION , DELETE ORIGINAL TASK
 
 // AI Dependencies
 const axios = require('axios'); // For making HTTP requests
@@ -19,10 +18,10 @@ require('dotenv').config(); // For environment variables
 // Add environment variables
 const TOGETHER_AI_API_KEY = process.env.TOGETHER_AI_API_KEY; // Load API key from .env
 const TOGETHER_AI_ENDPOINT = "https://api.together.xyz/v1/chat/completions"; // Together AI endpoint
-
+const PASSWORD_MONGO = process.env.PASSWORD_MONGO;
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Admin:abcd1234@cluster0.ea58rvf.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`mongodb+srv://Admin:${PASSWORD_MONGO}@cluster0.ea58rvf.mongodb.net/`, { useNewUrlParser: true, useUnifiedTopology: true });
 // Middleware
 app.use(express.static('views'));
 app.set('view engine', 'ejs');
@@ -64,6 +63,7 @@ app.post('/generate-subtasks', async (req, res) => {
                 task_name: subtask.title,
                 list_id: task.list_id,
                 description: '',
+                due_date: task.due_date,
                 completed: false
             });
             await newTask.save();
@@ -454,7 +454,7 @@ async function generateSubtasks(taskName, description, due_date) {
         model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
         messages: [
             { role: "system", content: "You are a task manager assistant." },
-            { role: "user", content: `Break down the task '${taskName}' into subtasks. Task description: '${description}'. Provide 3-5 subtasks in a numbered list.` }
+            { role: "user", content: `Break down the task '${taskName}' into subtasks. Task description: '${description}'. Provide 3-5 subtasks in a numbered list. dont do any formatting, dont give description, just task name` }
         ],
         temperature: 0.7
     };

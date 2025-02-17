@@ -21,7 +21,7 @@ const TOGETHER_AI_ENDPOINT = "https://api.together.xyz/v1/chat/completions"; // 
 const PASSWORD_MONGO = process.env.PASSWORD_MONGO;
 
 // Connect to MongoDB
-mongoose.connect(`mongodb+srv://Admin:${PASSWORD_MONGO}@cluster0.ea58rvf.mongodb.net/`, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`mongodb+srv://Admin:${PASSWORD_MONGO}@cluster0.ea58rvf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`, { useNewUrlParser: true, useUnifiedTopology: true });
 // Middleware
 app.use(express.static('views'));
 app.set('view engine', 'ejs');
@@ -136,7 +136,7 @@ app.get('/login', (req, res) => {
 
 app.post('/login', passport.authenticate('local', {
     successRedirect: '/main',
-    failureRedirect: '/home'
+    failureRedirect: '/login'
 }));
 
 app.get('/main', async (req, res) => {

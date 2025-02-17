@@ -4,13 +4,9 @@
 
 *An innovative project management platform built during HackED 2025*
 
-[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![HackED 2025](https://img.shields.io/badge/HackED-2025-orange.svg)](https://github.com/MisbahAN/tuesday.com)
-[![Built with React](https://img.shields.io/badge/Built%20with-React-61DAFB.svg)](https://reactjs.org)
 [![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-412991.svg)](https://openai.com)
 </div>
-
-![Tuesday.com Dashboard](AI-Integration/tuesdayloginpage.jpg)
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -18,7 +14,6 @@
 3. [Repository Structure](#-Repository-Structure)
    - [Frontend Structure](#frontend-structure)
    - [Backend Structure](#backend-structure)
-   - [AI Integration](#ai-integration)
 4. [Installation & Setup](#Installation-&-Setup)
    - [Prerequisites](#prerequisites)
    - [Getting Started](#getting-started)
@@ -35,6 +30,7 @@
 
 ### 🤖 AI-Driven Task Automation
 - Intelligent task generation and management
+- Smart task prioritization
 - Predictive task scheduling
 
 ### 📊 Task Management System
@@ -51,34 +47,25 @@
 
 ### Frontend Structure
 ```
-src/
-├── components/
-│   ├── Login.js         # Authentication components
-│   ├── Dashboard.js     # Main workspace
-│   ├── Task.js          # Task management
-│   └── AIRecommendations.js
-├── context/
-│   └── AuthContext.js   # Global state management
-└── hooks/
-    └── useTasks.js      # Custom task hooks
+backend/
+├── views/
+    ├── register.ejs     # sign up page
+    ├── login.ejs        # Login page
+    ├── main.ejs         # List selection
+    └── tasks.ejs       # Task list
 ```
 
 ### Backend Structure
 ```
 backend/
 ├── models/
-│   ├── User.js          # User data schema
-│   └── Task.js          # Task data schema
-├── routes/
-│   ├── auth.js          # Authentication routes
-│   └── tasks.js         # Task management routes
-└── server.js            # Server configuration
-```
-
-### AI Integration
-```
-AI-Integration/
-└── openai.js            # OpenAI API integration
+│   ├── Users.js            # User data schema
+│   ├── Tasks.js            # Task data schema
+|   ├── ListAssignments.js  # List assignments schema
+|   ├── Lists.js            # List schema
+|   ├── Recommendations.js  # not implemented yet
+|   └── Assignments.js      # Task data schema
+└── app.js            # app configuration
 ```
 
 ## 🛠️ Installation & Setup
@@ -86,7 +73,8 @@ AI-Integration/
 ### Prerequisites
 - Node.js (v14 or higher)
 - npm or yarn
-- Python 3.8+ (for AI features)
+- dotenv
+- axios
 
 ### Getting Started
 
@@ -99,21 +87,12 @@ AI-Integration/
 2. **Install dependencies**
    ```bash
    npm install
+   npm install dotenv
    ```
 
 3. **Start development server**
    ```bash
-   npm start
-   ```
-
-4. **Run tests**
-   ```bash
-   npm test
-   ```
-
-5. **Create production build**
-   ```bash
-   npm run build
+   node app.js
    ```
 
 ## 🔮 Future Enhancements
@@ -148,13 +127,6 @@ We welcome contributions! Here's how you can help:
    ```
 5. Open a Pull Request
 
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-<div align="center">
 
 ### Built with ❤️ during HackED 2025
 

@@ -9,6 +9,14 @@
 [![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-412991.svg)](https://openai.com)
 </div>
 
+## 📺 Watch Demo
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=hM6SHOnKApY" target="_blank">
+    <img src="https://img.youtube.com/vi/hM6SHOnKApY/0.jpg" alt="Watch Demo" width="560"/>
+  </a>
+</p>
+
 ## Table of Contents
 1. [Overview](#overview)
 2. [Core Features](#-Core-Features)
